@@ -4,8 +4,7 @@
 
 **Mise** is a personal meal planning app built to eliminate food decision fatigue. Instead of staring into your fridge at 11am — hungry, indecisive, and already running late — you plan the night before. Morning-you just executes.
 
-**Live URL:** [https://your-deployment-url.vercel.app](https://your-deployment-url.vercel.app)
-_(Update this once deployed)_
+**Live URL:** [https://mise-hq.vercel.app/](https://mise-hq.vercel.app/)
 
 ---
 
