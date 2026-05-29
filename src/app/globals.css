@@ -1,26 +1,95 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-green-50: #ebf6f7;
+  --color-green-100: #b7dadd;
+  --color-green-200: #82bdc2;
+  --color-green-400: #2b828a;
+  --color-green-600: #025259;
+  --color-green-800: #013438;
+  --color-green-900: #011e21;
+
+  --color-salmon-50: #fff2ee;
+  --color-salmon-100: #ffe1d8;
+  --color-salmon-200: #ffd0c2;
+  --color-salmon-400: #ffac96;
+  --color-salmon-600: #ff947a;
+  --color-salmon-800: #c85e44;
+  --color-salmon-900: #7e3326;
+
+  --color-background: #f8fafa;
+  --color-surface: #ffffff;
+  --color-border: #e0e8e8;
+  --color-muted: #607070;
+  --color-foreground: #4a4a42;
+
+  /* Fonts */
+  --font-display: var(--font-playfair-display), Georgia, serif;
+  --font-body: var(--font-dm-sans), system-ui, -apple-system, sans-serif;
+
+  /* Z-index */
+  --z-index-below: -1;
+  --z-index-base: 0;
+  --z-index-raised: 10;
+  --z-index-dropdown: 100;
+  --z-index-overlay: 200;
+  --z-index-content: 250;
+  --z-index-fab: 275;
+  --z-index-sticky: 300;
+  --z-index-fixed: 400;
+  --z-index-drawer: 500;
+  --z-index-modal: 600;
+  --z-index-popover: 700;
+  --z-index-toast: 800;
+  --z-index-tooltip: 900;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    scrollbar-width: thin;
   }
-}
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  *::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-salmon-100) var(--color-green-900);
+  }
+
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-salmon-200);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: var(--color-salmon-200);
+    color: var(--color-green-900);
+  }
 }
