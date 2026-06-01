@@ -10,24 +10,18 @@ interface MealCardProps {
   onEdit: (meal: Meal) => void;
 }
 
-const SLOT_STYLES: Record<
-  MealSlot,
-  { background: string; color: string; label: string }
-> = {
+const SLOT_STYLES: Record<MealSlot, { background: string; color: string }> = {
   breakfast: {
     background: "bg-green-100",
     color: "text-green-900",
-    label: "Breakfast",
   },
   lunch: {
     background: "bg-salmon-100",
     color: "text-salmon-900",
-    label: "Lunch",
   },
   dinner: {
     background: "bg-[var(--color-border)]",
     color: "text-[var(--color-foreground)]",
-    label: "Dinner",
   },
 };
 
@@ -61,17 +55,18 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
             return (
               <span
                 key={slot}
-                className={`select-none rounded-[20px] px-[8px] py-[3px] tracking-[0.07em] uppercase
-                  text-[10px] font-bold ${style.background} ${style.color}`}
+                className={`select-none rounded-[20px]
+                  px-[8px] py-[3px] whitespace-nowrap tracking-[0.07em] text-[10px]
+                  uppercase font-semibold ${style.background} ${style.color}`}
               >
-                {style.label}
+                {slot}
               </span>
             );
           })}
         </div>
 
         <h3
-          className="mb-[16px] leading-[1.25] text-[19px] font-semibold
+          className="mb-[16px] leading-[1.25] truncate text-[19px] font-semibold
             text-[var(--color-foreground)]"
         >
           {meal.name}
@@ -80,25 +75,21 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
         {/* Meta row */}
         <div className="flex items-center gap-[14px]">
           <span
-            className="flex items-center gap-[5px] text-[13px]
+            className="inline-flex items-center gap-[5px] whitespace-nowrap text-[13px]
               text-[var(--color-muted)]"
           >
             <Clock size={13} strokeWidth={2} />
-
-            <span>{meal.prepTime} min</span>
+            {meal.prepTime} min
           </span>
 
           {meal.ingredientIds.length > 0 && (
             <span
-              className="flex items-center gap-[5px] text-[13px]
+              className="inline-flex items-center gap-[5px] whitespace-nowrap text-[13px]
                 text-[var(--color-muted)]"
             >
               <Hash size={13} strokeWidth={2} />
-
-              <span>
-                {meal.ingredientIds.length} ingredient
-                {meal.ingredientIds.length > 1 ? "s" : ""}
-              </span>
+              {meal.ingredientIds.length} ingredient
+              {meal.ingredientIds.length !== 1 ? "s" : ""}
             </span>
           )}
         </div>
@@ -107,12 +98,15 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
       {/* Card footer */}
       <div
         className="flex justify-between items-center h-[48px] border-t
-          border-[var(--color-border)] px-[16px] py-[11px]"
+          border-[var(--color-border)] px-[20px] py-[11px]"
       >
         {confirming ? (
           /* Confirm delete row */
           <>
-            <span className="text-[13px] font-medium text-salmon-800">
+            <span
+              className="whitespace-nowrap text-[13px] font-medium
+                text-salmon-800"
+            >
               Delete this meal?
             </span>
 
@@ -121,9 +115,10 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
                 type="button"
                 onClick={() => setConfirming(false)}
                 className="select-none cursor-pointer border border-[var(--color-border)]
-                  rounded-[6px] px-[10px] py-[4px] bg-transparent text-[12px] font-medium
-                  text-[var(--color-muted)] transition-colors duration-150
-                  hover:bg-[var(--color-border)] hover:text-[var(--color-foreground)]"
+                  rounded-[6px] px-[10px] py-[4px] bg-transparent whitespace-nowrap
+                  text-[12px] font-semibold text-[var(--color-muted)] transition-colors
+                  duration-150 hover:bg-[var(--color-border)]
+                  hover:text-[var(--color-foreground)]"
               >
                 Cancel
               </button>
@@ -131,10 +126,10 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
               <button
                 type="button"
                 onClick={handleDeleteClick}
-                className="select-none cursor-pointer border border-salmon-200 rounded-[6px]
-                  px-[10px] py-[4px] bg-salmon-50 text-[12px] font-medium
-                  text-salmon-800 transition-colors duration-150 hover:bg-salmon-800
-                  hover:text-white"
+                className="select-none cursor-pointer border border-transparent
+                  rounded-[6px] px-[10px] py-[4px] bg-salmon-800 whitespace-nowrap
+                  text-[12px] font-semibold text-white transition-colors duration-150
+                  hover:bg-salmon-900"
               >
                 Delete
               </button>
@@ -146,9 +141,10 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
             <button
               type="button"
               onClick={() => onEdit(meal)}
-              className="select-none cursor-pointer inline-flex justify-center items-center
-                gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent text-[13px]
-                font-medium text-green-600 transition-colors duration-150 hover:bg-green-50"
+              className="select-none cursor-pointer inline-flex justify-center
+                items-center gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent
+                whitespace-nowrap text-[13px] font-semibold text-green-600
+                transition-colors duration-150 hover:bg-green-50"
             >
               <Edit2 size={14} strokeWidth={2} />
               Edit
@@ -157,10 +153,10 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
             <button
               type="button"
               onClick={handleDeleteClick}
-              className="select-none cursor-pointer inline-flex justify-center items-center
-                gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent text-[13px]
-                font-medium text-[var(--color-muted)] transition-colors duration-150
-                hover:bg-salmon-50 hover:text-salmon-800"
+              className="select-none cursor-pointer inline-flex justify-center
+                items-center gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent
+                whitespace-nowrap text-[13px] font-semibold text-salmon-800
+                transition-colors duration-150 hover:bg-salmon-50"
             >
               <Trash2 size={14} strokeWidth={2} />
               Delete

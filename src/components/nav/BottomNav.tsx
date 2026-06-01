@@ -10,7 +10,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 
-const navItems = [
+const NAV_ITEMS = [
   { href: "/", label: "Today", icon: Sun },
   { href: "/planner", label: "Planner", icon: CalendarDays },
   { href: "/meals", label: "Meals", icon: UtensilsCrossed },
@@ -27,7 +27,7 @@ export default function BottomNav() {
         border-[var(--color-border)] pb-[env(safe-area-inset-bottom)]
         bg-[var(--color-surface)]"
     >
-      {navItems.map(({ href, label, icon: Icon }) => {
+      {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const isActive =
           href === "/" ? pathname === "/" : pathname.startsWith(href);
 

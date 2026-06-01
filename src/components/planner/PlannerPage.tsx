@@ -211,7 +211,7 @@ function DayColumn({
         ${isToday ? "border-green-600" : "border-[var(--color-border)]"}`}
       >
         <span
-          className={`block mb-[6px] tracking-[0.08em] text-[10px] uppercase font-bold"
+          className={`block mb-[6px] tracking-[0.08em] text-[10px] uppercase font-bold
             ${isToday ? "text-green-600" : "text-[var(--color-muted)]"}`}
         >
           {dayName}
@@ -318,8 +318,8 @@ export default function PlannerPage() {
         </p>
 
         <h1
-          className="leading-[1.15] text-[36px] font-bold
-                text-[var(--color-foreground)]"
+          className="leading-[1.15] text-[28px] md:text-[32px] lg:text-[36px] font-bold
+            text-[var(--color-foreground)]"
         >
           Plan your week
         </h1>

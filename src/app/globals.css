@@ -58,7 +58,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-tap-highlight-color: transparent;
-    scroll-behavior: smooth;
     scrollbar-width: thin;
     scrollbar-color: var(--color-salmon-100) var(--color-green-900);
   }

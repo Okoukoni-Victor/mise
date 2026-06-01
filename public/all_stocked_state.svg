@@ -1,0 +1,39 @@
+<svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="108"
+        height="108"
+        viewBox="0 0 108 108"
+        fill="none"
+      >
+        {/* Bag body — filled */}
+        <rect
+          x="18"
+          y="38"
+          width="72"
+          height="56"
+          rx="8"
+          fill="#ebf6f7"
+          stroke="#82bdc2"
+          strokeWidth="1.5"
+        />
+        {/* Bag handle */}
+        <path
+          d="M38 38 Q38 20 54 20 Q70 20 70 38"
+          stroke="#2b828a"
+          strokeWidth="2"
+          fill="none"
+          strokeLinecap="round"
+        />
+        {/* Big checkmark inside bag */}
+        <path
+          d="M36 64 L48 76 L72 52"
+          stroke="#025259"
+          strokeWidth="4"
+          fill="none"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        {/* Salmon accent */}
+        <circle cx="83" cy="24" r="7" fill="#ff947a" />
+        <circle cx="93" cy="36" r="4.5" fill="#ffd0c2" />
+      </svg>

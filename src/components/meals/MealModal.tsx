@@ -175,8 +175,8 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
           bg-[var(--color-surface)]"
       >
         {/* Header */}
-        <div className="flex justify-between items-center px-[28px] pt-[26px]">
-          <div>
+        <div className="flex justify-between items-center gap-[24px] px-[28px] pt-[26px]">
+          <div className="flex-1 min-w-0">
             <p
               className="mb-[4px] tracking-[0.08em] text-[11px] uppercase font-semibold
                 text-salmon-600"
@@ -185,7 +185,7 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
             </p>
 
             <h2
-              className="leading-none text-[24px] font-bold
+              className="leading-none truncate text-[24px] font-bold
                 text-[var(--color-foreground)]"
             >
               {isEditing ? meal!.name : "Add a meal"}
@@ -196,9 +196,9 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
             type="button"
             onClick={onClose}
             aria-label="Close"
-            className="select-none cursor-pointer flex justify-center items-center
-              rounded-[8px] p-[6px] bg-transparent text-[var(--color-muted)]
-              transition-colors duration-150 hover:bg-green-50"
+            className="select-none cursor-pointer shrink-0 inline-flex justify-center
+              items-center rounded-[8px] p-[6px] bg-transparent text-[var(--color-muted)]
+              transition-colors duration-150 hover:bg-salmon-50 hover:text-salmon-800"
           >
             <X size={20} strokeWidth={2} />
           </button>
@@ -387,17 +387,19 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
                   <span
                     key={ing}
                     className="select-none inline-flex items-center gap-[6px]
-                      border border-salmon-200 rounded-[20px] pl-[12px] pr-[10px] py-[5px]
-                      bg-salmon-50 text-[13px] font-medium text-salmon-800"
+                      max-w-[180px] border border-salmon-200 rounded-[20px] pl-[12px]
+                      pr-[10px] py-[5px] bg-salmon-50 text-[13px] font-semibold
+                      text-salmon-800"
                   >
-                    {ing}
+                    <span className="min-w-0 truncate">{ing}</span>
 
                     <button
                       type="button"
                       onClick={() => removeIngredient(ing)}
                       aria-label={`Remove ${ing}`}
-                      className="select-none cursor-pointer inline-flex justify-center
-                        items-center bg-transparent leading-none text-salmon-800"
+                      className="select-none cursor-pointer shrink-0 inline-flex
+                        justify-center items-center bg-transparent leading-none
+                        text-salmon-800"
                     >
                       <X size={13} strokeWidth={2.5} />
                     </button>

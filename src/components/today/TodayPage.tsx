@@ -88,7 +88,7 @@ function TodayMealCard({
       onMouseEnter={() => setCardHovered(true)}
       onMouseLeave={() => setCardHovered(false)}
       style={{
-        background: "var(--surface)",
+        background: "var(--color-surface)",
         border: `1px solid ${meal ? cfg.border : cardHovered ? "var(--color-green-200)" : "var(--color-border)"}`,
         borderRadius: "14px",
         overflow: "hidden",
@@ -446,8 +446,7 @@ export default function TodayPage() {
   const currentMealId = pickerSlot ? getMeal(pickerSlot)?.id : undefined;
 
   return (
-    <div className="px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
-      {/* Greeting */}
+    <main className="px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
       <div className="mb-[40px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold
@@ -457,19 +456,20 @@ export default function TodayPage() {
         </p>
 
         <h1
-          className="mb-[8px] leading-[1.1] text-[44px] font-bold
-          text-[var(--color-foreground)]"
+          className="leading-[1.15] text-[32px] md:text-[40px] lg:text-[44px] font-bold
+            text-[var(--color-foreground)]"
         >
           {getGreeting()}
         </h1>
 
-        <p className="mb-[4px] text-[16px] text-[var(--color-muted)]">
+        <p className="mt-[6px] text-[16px] text-[var(--color-muted)]">
           {dateDisplay}
         </p>
 
         <p
-          className={`text-[14px] ${plannedToday === 3 ? "font-medium" : "font-normal"}
-          ${plannedToday === 3 ? "text-green-600" : "text-[var(--color-muted)]"}`}
+          className={`mt-[24px] text-[14px]
+            ${plannedToday === 3 ? "font-medium" : "font-normal"}
+            ${plannedToday === 3 ? "text-green-600" : "text-[var(--color-muted)]"}`}
         >
           {subtitle}
         </p>
@@ -523,6 +523,6 @@ export default function TodayPage() {
         currentMealId={currentMealId}
         onSelect={handleSelect}
       />
-    </div>
+    </main>
   );
 }

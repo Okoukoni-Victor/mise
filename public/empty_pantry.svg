@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108" fill="none">
+  {/* Box body */}
+  <rect x="18" y="48" width="72" height="48" rx="6" fill=" #ebf6f7" stroke="#82bdc2" strokeWidth="1.5"/>
+  {/* Box lid left flap */}
+  <path d="M18 48 L18 34 Q18 28 26 28 L54 28" stroke="#82bdc2" strokeWidth="1.5" strokeLinecap="round" fill=" #ebf6f7"/>
+  {/* Box lid right flap */}
+  <path d="M90 48 L90 34 Q90 28 82 28 L54 28" stroke="#82bdc2" strokeWidth="1.5" strokeLinecap="round" fill=" #ebf6f7"/>
+  {/* Centre crease on lid */}
+  <line x1="54" y1="28" x2="54" y2="48" stroke="#82bdc2" strokeWidth="1.5" strokeLinecap="round"/>
+  {/* Box divider line */}
+  <line x1="18" y1="64" x2="90" y2="64" stroke="#82bdc2" strokeWidth="1" strokeDasharray="4 3"/>
+  {/* Empty interior dots */}
+  <circle cx="40" cy="74" r="3" fill="#82bdc2"/>
+  <circle cx="54" cy="74" r="3" fill="#82bdc2"/>
+  <circle cx="68" cy="74" r="3" fill="#82bdc2"/>
+  {/* Salmon accent dots */}
+  <circle cx="84" cy="22" r="7" fill="#ff947a"/>
+  <circle cx="94" cy="34" r="4.5" fill="#ffd0c2"/>
+  <circle cx="76" cy="13" r="3" fill="#ffd0c2"/>
+</svg>

@@ -11,7 +11,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 
-const navItems = [
+const NAV_ITEMS = [
   { href: "/", label: "Today", icon: Sun },
   { href: "/planner", label: "Planner", icon: CalendarDays },
   { href: "/meals", label: "Meals", icon: UtensilsCrossed },
@@ -24,13 +24,14 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="overflow-y-auto z-sticky sticky top-0 flex flex-col shrink-0 w-[248px] h-dvh
-        border-r border-[var(--color-border)] bg-[var(--color-surface)]"
+      className="overflow-y-auto z-sticky sticky top-0 shrink-0 flex flex-col w-[248px]
+        h-dvh border-r border-[var(--color-border)] bg-[var(--color-surface)]"
     >
       <div className="flex items-center border-b border-[var(--color-border)] p-[20px]">
         <Link
           href="/"
-          className="select-none overflow-hidden relative w-[75px] h-[30px]"
+          aria-label="Mise homepage"
+          className="select-none relative w-[75px] h-[30px]"
         >
           <Image
             src="/Mise.png"
@@ -43,7 +44,7 @@ export default function Sidebar() {
       </div>
 
       <nav className="flex flex-1 flex-col gap-[12px] px-[12px] py-[16px]">
-        {navItems.map(({ href, label, icon: Icon }) => {
+        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
           const isActive =
             href === "/" ? pathname === "/" : pathname.startsWith(href);
 
@@ -51,8 +52,8 @@ export default function Sidebar() {
             <Link
               key={href}
               href={href}
-              className={`select-none flex items-center gap-[10px] rounded-[9px] px-[12px]
-                py-[10px] transition-colors duration-150
+              className={`select-none inline-flex items-center gap-[10px] rounded-[9px]
+                px-[12px] py-[10px] whitespace-nowrap transition-colors duration-150
                   ${
                     isActive
                       ? "bg-green-600 text-white"
@@ -60,14 +61,10 @@ export default function Sidebar() {
                          hover:text-green-600`
                   }`}
             >
-              <Icon
-                size={17}
-                strokeWidth={isActive ? 2.2 : 1.8}
-                className="shrink-0"
-              />
+              <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />
 
               <span
-                className={`tracking-[-0.01em] text-sm
+                className={`tracking-[-0.01em] text-[14px]
                   ${isActive ? "font-semibold" : "font-medium"}`}
               >
                 {label}
@@ -82,7 +79,7 @@ export default function Sidebar() {
           p-[20px]"
       >
         <p
-          className="tracking-[0.1em] uppercase text-[10px] font-medium
+          className="tracking-[0.1em] text-[10px] uppercase font-medium
             text-[var(--color-foreground)]"
         >
           mise en place
