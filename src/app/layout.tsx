@@ -37,36 +37,14 @@ export default function RootLayout({
     >
       <body>
         <StoreProvider>
-          <div className="flex min-h-100dvh">
-            <div className="hide-on-mobile">
-              <Sidebar />
-            </div>
-            <main
-              style={{
-                flex: 1,
-                minWidth: 0,
-                minHeight: "100vh",
-                background: "var(--bg)",
-              }}
-            >
-              {children}
-            </main>
+          <div className="flex">
+            <Sidebar />
+
+            {children}
           </div>
 
-          <div className="show-on-mobile">
-            <BottomNav />
-          </div>
+          <BottomNav />
         </StoreProvider>
-
-        <style>{`
-          .hide-on-mobile { display: flex; }
-          .show-on-mobile { display: none; }
-          @media (max-width: 768px) {
-            .hide-on-mobile { display: none !important; }
-            .show-on-mobile { display: block !important; }
-            main { padding-bottom: 72px !important; }
-          }
-        `}</style>
       </body>
     </html>
   );

@@ -18,7 +18,7 @@ export default function IngredientRow({
       title={
         available ? "Click to mark as needed" : "Click to mark as available"
       }
-      className={`group cursor-pointer flex items-center gap-[11px]
+      className={`group cursor-pointer flex items-center gap-[24px]
         border rounded-[8px] px-[13px] py-[11px] text-center transition-all duration-150
         ${
           available
@@ -41,7 +41,7 @@ export default function IngredientRow({
       </span>
 
       <span
-        className={`flex-1 text-[14px] transition-colors duration-150
+        className={`flex-1 truncate text-[14px] transition-colors duration-150
           ${
             available
               ? `font-medium text-green-600`
@@ -55,7 +55,7 @@ export default function IngredientRow({
       <span
         className={`opacity-0 shrink-0 text-[11px] font-medium transition-opacity
           duration-150 group-hover:opacity-100
-          ${available ? "text-salmon-800" : "text-green-600"}`}
+          ${available ? "text-salmon-900" : "text-green-900"}`}
       >
         {available ? "Remove" : "Got it"}
       </span>

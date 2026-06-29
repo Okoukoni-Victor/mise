@@ -53,7 +53,7 @@ export default function MealLibrary() {
   const noSearchResult = hasMeals && filteredMeals.length === 0;
 
   return (
-    <main className="px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
+    <main className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
       <div className="mb-[28px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold

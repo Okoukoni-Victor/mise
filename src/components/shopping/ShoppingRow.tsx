@@ -22,7 +22,7 @@ export default function ShoppingRow({
           isChecked
             ? `opacity-72 border-green-200 bg-green-50`
             : `opacity-100 border-[var(--color-border)] bg-[var(--color-surface)]
-               hover:bg-[var(--color-background)]`
+               hover:bg-[var(--color-background)] hover:border-green-100`
         }
       `}
     >

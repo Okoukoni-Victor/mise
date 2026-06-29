@@ -85,7 +85,7 @@ export default function ShoppingPage() {
     shoppingItems.length > 0 && checkedCount === shoppingItems.length;
 
   return (
-    <main className="px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
+    <main className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
       <div className="mb-[28px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold
@@ -141,10 +141,9 @@ export default function ShoppingPage() {
                 <button
                   type="button"
                   onClick={clearAll}
-                  className="select-none cursor-pointer border-[1.5px]
-                    border-salmon-200 rounded-[8px] px-[16px] py-[9px]
-                    bg-[var(--color-surface)] whitespace-nowrap text-[13px] font-semibold
-                    text-salmon-800 transition-colors duration-150 hover:bg-salmon-50"
+                  className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
+                    bg-salmon-800 whitespace-nowrap text-[13px] font-semibold text-white
+                    transition-colors duration-150 hover:bg-salmon-900"
                 >
                   Clear checks
                 </button>
@@ -152,10 +151,9 @@ export default function ShoppingPage() {
                 <button
                   type="button"
                   onClick={markAll}
-                  className="select-none cursor-pointer border-[1.5px]
-                    border-green-200 rounded-[8px] px-[16px] py-[9px]
-                    bg-[var(--color-surface)] whitespace-nowrap text-[13px] font-semibold
-                    text-green-600 transition-colors duration-150 hover:bg-green-50"
+                  className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
+                    bg-green-600 whitespace-nowrap text-[13px] font-semibold text-white
+                    transition-colors duration-150 hover:bg-green-800"
                 >
                   Mark all
                 </button>

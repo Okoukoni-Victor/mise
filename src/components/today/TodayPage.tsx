@@ -1,344 +1,21 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useMemo, useCallback } from "react";
-import {
-  Sunrise,
-  Sun,
-  Moon,
-  Plus,
-  X,
-  ArrowRight,
-  Clock,
-  Hash,
-  TriangleAlert,
-} from "lucide-react";
 import { useStore } from "@/hooks/useStore";
 import { Meal, MealSlot } from "@/lib/types";
 import { getTodayString, getWeekDates } from "@/lib/utils";
 import MealPickerModal from "@/components/planner/MealPickerModal";
+import TodayMealCard from "./TodayMealCard";
+import StatCard from "./StatCard";
 
 // Constants
 const SLOTS: MealSlot[] = ["breakfast", "lunch", "dinner"];
-
-const SLOT_CONFIG: Record<
-  MealSlot,
-  {
-    label: string;
-    Icon: React.ElementType;
-    headerBg: string;
-    headerColor: string;
-    accent: string;
-    border: string;
-  }
-> = {
-  breakfast: {
-    label: "Breakfast",
-    Icon: Sunrise,
-    headerBg: "bg-green-50",
-    headerColor: "text-green-600",
-    accent: "var(--color-green-600)",
-    border: "border-green-200",
-  },
-  lunch: {
-    label: "Lunch",
-    Icon: Sun,
-    headerBg: "bg-salmon-50",
-    headerColor: "text-salmon-800",
-    accent: "var(--color-salmon-600)",
-    border: "border-salmon-200",
-  },
-  dinner: {
-    label: "Dinner",
-    Icon: Moon,
-    headerBg: "#EEF2F2",
-    headerColor: "#3A5557",
-    accent: "#3A5557",
-    border: "#C5D4D4",
-  },
-};
 
 function getGreeting(): string {
   const h = new Date().getHours();
   if (h < 12) return "Good morning.";
   if (h < 17) return "Good afternoon.";
   return "Good evening.";
-}
-
-// TodayMealCard
-
-function TodayMealCard({
-  slot,
-  meal,
-  missingIngredients,
-  onOpen,
-  onRemove,
-}: {
-  slot: MealSlot;
-  meal: Meal | null;
-  missingIngredients: string[];
-  onOpen: () => void;
-  onRemove: () => void;
-}) {
-  const [cardHovered, setCardHovered] = useState(false);
-  const cfg = SLOT_CONFIG[slot];
-
-  return (
-    <div
-      onMouseEnter={() => setCardHovered(true)}
-      onMouseLeave={() => setCardHovered(false)}
-      style={{
-        background: "var(--color-surface)",
-        border: `1px solid ${meal ? cfg.border : cardHovered ? "var(--color-green-200)" : "var(--color-border)"}`,
-        borderRadius: "14px",
-        overflow: "hidden",
-        display: "flex",
-        flexDirection: "column",
-        minHeight: "200px",
-        transition: "box-shadow 200ms, border-color 200ms",
-        boxShadow: cardHovered ? "0 4px 20px rgba(2,82,89,0.07)" : "none",
-      }}
-    >
-      {/* ── Slot header ── */}
-      <div
-        style={{
-          background: meal
-            ? cfg.headerBg
-            : cardHovered
-              ? "var(--color-green-50)"
-              : "var(--color-background)",
-          padding: "12px 16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          borderBottom: `1px solid ${meal ? cfg.border : "var(--color-border)"}`,
-          transition: "background 200ms",
-        }}
-      >
-        <span
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            fontSize: "11px",
-            fontWeight: 700,
-            letterSpacing: "0.08em",
-            textTransform: "uppercase",
-            color: meal
-              ? cfg.headerColor
-              : cardHovered
-                ? "var(--color-green-600)"
-                : "var(--color-muted)",
-            transition: "color 200ms",
-          }}
-        >
-          <cfg.Icon size={12} strokeWidth={2.2} />
-
-          {cfg.label}
-        </span>
-
-        {meal && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onRemove();
-            }}
-            title="Remove"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: cfg.headerColor,
-              opacity: 0.5,
-              padding: 0,
-              display: "flex",
-              alignItems: "center",
-              transition: "opacity 150ms",
-            }}
-            onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-            onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.5")}
-          >
-            <X size={13} strokeWidth={2.5} />
-          </button>
-        )}
-      </div>
-
-      {/* Body */}
-      <div className="flex-1 flex flex-col">
-        {meal ? (
-          <>
-            {/* Filled — click to change */}
-            <button
-              type="button"
-              onClick={onOpen}
-              title="Tap to change"
-              style={{
-                flex: 1,
-                background: "none",
-                border: "none",
-                cursor: "pointer",
-                textAlign: "left",
-                padding: "18px 16px 14px",
-                transition: "background 150ms",
-              }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.background = cfg.headerBg + "60")
-              }
-              onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
-            >
-              <h3
-                className="mb-[10px] leading-[1.25] text-[22px] font-bold
-                text-[var(--color-foreground)]"
-              >
-                {meal.name}
-              </h3>
-
-              <div className="flex items-center gap-[14px] mb-[10px]">
-                <span
-                  className="flex items-center gap-[4px] text-center text-[13px]
-                  text-[var(--color-muted)]"
-                >
-                  <Clock size={12} strokeWidth={2} />
-                  {meal.prepTime} min
-                </span>
-
-                {meal.ingredientIds.length > 0 && (
-                  <span
-                    className="flex items-center gap-[4px] text-center text-[13px]
-                    text-[var(--color-muted)]"
-                  >
-                    <Hash size={12} strokeWidth={2} />
-                    {meal.ingredientIds.length} ingredient
-                    {meal.ingredientIds.length !== 1 ? "s" : ""}
-                  </span>
-                )}
-              </div>
-
-              <span
-                className="opacity-65 text-[11px]"
-                style={{
-                  color: cfg.accent,
-                }}
-              >
-                Tap to change
-              </span>
-            </button>
-
-            {/* Missing ingredients warning */}
-            {missingIngredients.length > 0 && (
-              <Link
-                href="/pantry"
-                className="block border-t border-salmon-200 px-[16px] py-[9px]
-                  bg-salmon-50"
-              >
-                <p className="flex items-center gap-[3px] leading-[1.4] text-[12px] font-medium text-salmon-800">
-                  <TriangleAlert width={12} strokeWidth={2} /> Missing:{" "}
-                  {missingIngredients.slice(0, 2).join(", ")}
-                  {missingIngredients.length > 2 &&
-                    ` +${missingIngredients.length - 2} more`}
-                </p>
-              </Link>
-            )}
-          </>
-        ) : (
-          /* Empty — click to plan */
-          <button
-            type="button"
-            onClick={onOpen}
-            className="select-none cursor-pointer flex-1 inline-flex flex-col
-              justify-center items-center gap-[8px] px-[16px] py-[24px] bg-transparent
-              transition-colors duration-150"
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.background = cfg.headerBg)
-            }
-            onMouseLeave={(e) => (e.currentTarget.style.background = "none")}
-          >
-            <span
-              className="inline-flex justify-center items-center w-[36px] h-[36px]
-                border-[1.5px] border-dashed border-[var(--color-border)] rounded-full
-                bg-[var(--color-background)]"
-            >
-              <Plus
-                size={16}
-                strokeWidth={2}
-                className="text-[var(--color-muted)]"
-              />
-            </span>
-
-            <span className="text-[14px] font-medium text-[var(--color-muted)]">
-              Plan {cfg.label.toLowerCase()}
-            </span>
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
-// StatCard
-function StatCard({
-  value,
-  label,
-  href,
-  accent,
-}: {
-  value: string | number;
-  label: string;
-  href: string;
-  accent: string;
-}) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <Link
-      href={href}
-      style={{
-        display: "block",
-        textDecoration: "none",
-        flex: 1,
-        minWidth: "140px",
-        padding: "18px 20px",
-        borderRadius: "12px",
-        background: "var(--color-surface)",
-        border: `1px solid ${hovered ? accent + "50" : "var(--color-border)"}`,
-        boxShadow: hovered ? "0 2px 12px rgba(2,82,89,0.06)" : "none",
-        transition: "all 150ms",
-      }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      <span
-        style={{
-          display: "block",
-          fontFamily: "var(--font-display)",
-          fontSize: "30px",
-          fontWeight: 700,
-          color: accent,
-          lineHeight: 1,
-          marginBottom: "6px",
-        }}
-      >
-        {value}
-      </span>
-
-      <span
-        className="inline-flex justify-between items-center text-[13px]
-          text-[var(--color-muted)]"
-      >
-        {label}
-        <ArrowRight
-          size={14}
-          strokeWidth={2}
-          style={{
-            opacity: hovered ? 1 : 0.35,
-            transition: "opacity 150ms",
-            color: accent,
-            flexShrink: 0,
-          }}
-        />
-      </span>
-    </Link>
-  );
 }
 
 // TodayPage
@@ -446,7 +123,7 @@ export default function TodayPage() {
   const currentMealId = pickerSlot ? getMeal(pickerSlot)?.id : undefined;
 
   return (
-    <main className="px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
+    <main className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
       <div className="mb-[40px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold
@@ -493,24 +170,21 @@ export default function TodayPage() {
       </div>
 
       {/* Stats row */}
-      <div className="flex flex-wrap gap-[12px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]">
         <StatCard
           value={`${weeklyPlanned}/21`}
-          label="meals planned this week"
+          label="Meals planned this week"
           href="/planner"
-          accent="var(--green-600)"
         />
         <StatCard
           value={pantryDisplay}
-          label="ingredients stocked"
+          label="Ingredients stocked"
           href="/pantry"
-          accent="var(--salmon-600)"
         />
         <StatCard
           value={shoppingCount}
-          label={shoppingCount === 1 ? "item to buy" : "items to buy"}
+          label={shoppingCount === 1 ? "Item to buy" : "Items to buy"}
           href="/shopping"
-          accent={shoppingCount === 0 ? "var(--green-600)" : "#3A5557"}
         />
       </div>
 

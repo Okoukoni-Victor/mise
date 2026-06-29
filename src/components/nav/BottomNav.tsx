@@ -23,7 +23,7 @@ export default function BottomNav() {
 
   return (
     <nav
-      className="z-fixed fixed inset-x-0 bottom-0 flex items-center h-16 border-t
+      className="z-fixed fixed inset-x-0 bottom-0 flex lg:hidden items-center h-16 border-t
         border-[var(--color-border)] pb-[env(safe-area-inset-bottom)]
         bg-[var(--color-surface)]"
     >

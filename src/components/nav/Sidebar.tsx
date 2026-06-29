@@ -24,8 +24,8 @@ export default function Sidebar() {
 
   return (
     <aside
-      className="overflow-y-auto z-sticky sticky top-0 shrink-0 flex flex-col w-[248px]
-        h-dvh border-r border-[var(--color-border)] bg-[var(--color-surface)]"
+      className="overflow-y-auto z-sticky sticky top-0 shrink-0 hidden lg:flex flex-col
+        w-[248px] h-dvh border-r border-[var(--color-border)] bg-[var(--color-surface)]"
     >
       <div className="flex items-center border-b border-[var(--color-border)] p-[20px]">
         <Link
