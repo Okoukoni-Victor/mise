@@ -30,8 +30,8 @@ export default function EmptyPantry() {
 
       <Link
         href="/meals"
-        className="select-none rounded-[10px] px-[28px]
-          py-[12px] bg-green-600 whitespace-nowrap text-[14px] font-semibold text-white
+        className="select-none rounded-[10px] px-[28px] py-[12px] bg-green-600
+          whitespace-nowrap text-[14px] md:text-[15px] font-semibold text-white
           transition-colors duration-150 hover:bg-green-800"
       >
         Go to Meals

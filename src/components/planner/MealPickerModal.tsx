@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { X, Clock, Search, ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
+import { useState, useEffect, useRef } from "react";
+import { X, Search, ArrowRight } from "lucide-react";
 import { useStore } from "@/hooks/useStore";
-import { Meal, MealSlot } from "@/lib/types";
+import { MealSlot } from "@/lib/types";
+import PickerRow from "./PickerRow";
 
 interface MealPickerModalProps {
   isOpen: boolean;
@@ -87,12 +88,13 @@ export default function MealPickerModal({
     >
       <div
         className="overflow-hidden flex flex-col w-full max-w-[460px] max-h-[82vh]
-        shadow-[0_24px_80px_rgba(2,82,89,0.18)] rounded-[16px] bg-[var(--color-surface)]"
+          rounded-[16px] bg-[var(--color-surface)]"
       >
         {/* Header */}
         <div className="border-b border-[var(--color-border)] px-[24px] pt-[24px] pb-[16px]">
           <div
-            className={`flex justify-between items-start ${eligible.length > 4 ? "mb-[16px]" : ""}`}
+            className={`flex justify-between items-start
+              ${eligible.length > 4 ? "mb-[16px]" : ""}`}
           >
             <div>
               <p
@@ -102,7 +104,10 @@ export default function MealPickerModal({
                 {isReplacing ? "Replace meal" : "Choose a meal"}
               </p>
 
-              <h2 className="leading-[1.2] text-[22px] font-bold text-[var(--color-foreground)]">
+              <h2
+                className="leading-[1.2] text-[18px] md:text-[20px] font-bold
+                  text-[var(--color-foreground)]"
+              >
                 {slotLabel} · {dayName}
               </h2>
             </div>
@@ -111,9 +116,10 @@ export default function MealPickerModal({
               type="button"
               onClick={onClose}
               aria-label="Close"
-              className="select-none cursor-pointer flex justify-center items-center
-              rounded-[6px] p-[4px] bg-transparent text-[var(--color-muted)]
-              transition-colors duration-150 hover:bg-green-50"
+              className="select-none cursor-pointer inline-flex justify-center
+                items-center rounded-[6px] p-[4px] bg-transparent
+                text-[var(--color-muted)] transition-colors duration-150
+                hover:bg-salmon-50 hover:text-salmon-800"
             >
               <X size={20} strokeWidth={2} />
             </button>
@@ -132,17 +138,19 @@ export default function MealPickerModal({
                 ref={searchRef}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder={`Search ${slotLabel.toLowerCase()} meals…`}
-                className="w-full border border-[var(--color-border)] rounded-[8px]
+                placeholder={`Search ${slotLabel.toLowerCase()} meal...`}
+                className="w-full border-[1.5px] border-[var(--color-border)] rounded-[8px]
                   pl-[34px] pr-[12px] py-[9px] bg-[var(--color-background)] text-[14px]
-                  text-[var(--color-foreground)]"
+                  text-[var(--color-foreground)] transition-colors duration-150
+                  focus-visible:outline-none focus:ring-2 focus:ring-offset-0
+                  focus:ring-salmon-200 focus:border-transparent"
               />
             </div>
           )}
         </div>
 
         {/* List */}
-        <div className="overflow-y-auto flex-1 px-[12px] py-[10px]">
+        <div className="overflow-y-auto px-[12px] py-[10px]">
           {eligible.length === 0 ? (
             <div className="flex flex-col items-center px-[16px] py-[36px]">
               <p
@@ -155,7 +163,8 @@ export default function MealPickerModal({
               <Link
                 href="/meals"
                 onClick={onClose}
-                className="inline-flex items-center gap-[3px] text-[14px] font-semibold text-green-600"
+                className="select-none inline-flex items-center gap-[3px] text-[14px]
+                  font-semibold text-green-600"
               >
                 Go to meal library <ArrowRight size={16} strokeWidth={2} />
               </Link>
@@ -183,69 +192,5 @@ export default function MealPickerModal({
         </div>
       </div>
     </div>
-  );
-}
-
-// Picker row
-function PickerRow({
-  meal,
-  isCurrent,
-  onSelect,
-}: {
-  meal: Meal;
-  isCurrent: boolean;
-  onSelect: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className={`group select-none cursor-pointer flex items-start gap-[24px] w-full
-        mb-[4px] border rounded-[10px] px-[12px] py-[11px] transition-all duration-150
-        ${
-          isCurrent
-            ? `border-green-200`
-            : `border-transparent
-           group-hover:border-[var(--color-border)]`
-        }
-        ${
-          isCurrent
-            ? `bg-green-50`
-            : `bg-transparent
-          group-hover:bg-[var(--color-background)]`
-        }`}
-    >
-      {/* Check indicator */}
-      <span
-        className={`flex shrink-0 justify-center items-center w-[18px] h-[18px]
-          border-2 rounded-full transition-all duration-150
-        ${
-          isCurrent
-            ? `border-green-600`
-            : `border-[var(--color-border)]
-           group-hover:border-green-400`
-        }
-        ${isCurrent ? "bg-green-600" : "bg-transparent"}`}
-      >
-        {isCurrent && (
-          <Check size={14} strokeWidth={2.5} className="text-white" />
-        )}
-      </span>
-
-      <div className="flex flex-col gap-[4px]">
-        <span
-          className={`overflow-hidden block leading-none whitespace-nowrap
-          text-ellipsis text-[16px] font-semibold
-          ${isCurrent ? "text-green-600" : "text-[var(--color-foreground)]"}`}
-        >
-          {meal.name}
-        </span>
-
-        <span className="flex items-center gap-[4px] text-[12px] text-[var(--color-muted)]">
-          <Clock size={11} strokeWidth={2} />
-          {meal.prepTime} min
-        </span>
-      </div>
-    </button>
   );
 }

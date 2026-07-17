@@ -18,14 +18,14 @@ export default function EmptyMeals({ onAdd }: EmptyMealsProps) {
 
       <h3
         className="mb-[10px] leading-[1.2] text-center text-[20px] md:text-[24px]
-          lg:text-[26px] font-bold text-[var(--color-foreground)]"
+          lg:text-[26px] font-bold text-white"
       >
         No meals yet
       </h3>
 
       <p
         className="max-w-[360px] mb-[32px] leading-[1.65] text-center text-[15px]
-          text-[var(--color-muted)]"
+          text-white"
       >
         Add your go-to meals here. Once your library is built, you can plan your
         entire week in seconds.
@@ -34,9 +34,9 @@ export default function EmptyMeals({ onAdd }: EmptyMealsProps) {
       <button
         type="button"
         onClick={onAdd}
-        className="select-none cursor-pointer rounded-[10px]
-          px-[28px] py-[12px] bg-green-600 whitespace-nowrap text-[14px] font-semibold
-          text-white transition-colors duration-150 hover:bg-green-800"
+        className="select-none cursor-pointer rounded-[10px] px-[28px] py-[12px] bg-white
+          whitespace-nowrap text-[14px] md:text-[15px] font-semibold text-green-600
+          transition-colors duration-150 hover:bg-[var(--color-border)]"
       >
         Add your first meal
       </button>

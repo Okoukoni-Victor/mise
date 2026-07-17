@@ -53,7 +53,10 @@ export default function MealLibrary() {
   const noSearchResult = hasMeals && filteredMeals.length === 0;
 
   return (
-    <main className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
+    <main
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+        lg:py-[40px] bg-green-600"
+    >
       <div className="mb-[28px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold
@@ -64,14 +67,14 @@ export default function MealLibrary() {
 
         <h1
           className="leading-[1.15] text-[28px] md:text-[32px] lg:text-[36px] font-bold
-            text-[var(--color-foreground)]"
+            text-white"
         >
           Your meals
         </h1>
 
         {hasMeals && (
           <>
-            <p className="mt-[6px] text-[14px] text-[var(--color-muted)]">
+            <p className="mt-[6px] text-[14px] text-[var(--color-background)]">
               {store.meals.length} meal{store.meals.length !== 1 ? "s" : ""}{" "}
               saved
             </p>
@@ -79,10 +82,10 @@ export default function MealLibrary() {
             <button
               type="button"
               onClick={openAddModal}
-              className="select-none cursor-pointer inline-flex items-center
-                gap-[6px] mt-[16px] rounded-[10px] px-[20px] py-[11px] bg-green-600
-                whitespace-nowrap text-[14px] font-semibold text-white
-                transition-colors duration-150 hover:bg-green-800"
+              className="select-none cursor-pointer inline-flex items-center gap-[6px]
+                mt-[16px] rounded-[10px] px-[20px] py-[11px] bg-white whitespace-nowrap
+                text-[14px] font-semibold text-green-600 transition-colors duration-150
+                hover:bg-[var(--color-border)]"
             >
               <Plus size={16} strokeWidth={2.5} />
               Add meal
@@ -110,7 +113,7 @@ export default function MealLibrary() {
                 />
               </div>
 
-              {/* Slot filter pills */}
+              {/* Slot filter buttons */}
               <div className="flex items-center gap-[6px]">
                 {SLOT_FILTERS.map(({ value, label }) => {
                   const active = slotFilter === value;
@@ -121,15 +124,14 @@ export default function MealLibrary() {
                       key={value}
                       onClick={() => setSlotFilter(value)}
                       className={`select-none cursor-pointer border-[1.5px] rounded-[8px]
-                        px-[14px] py-[8px] whitespace-nowrap text-[13px] transition-all
-                        duration-150
-                    ${
-                      active
-                        ? "border-green-600 bg-green-600 font-semibold text-white"
-                        : `border-[var(--color-border)] bg-[var(--color-surface)]
-                           font-medium text-[var(--color-muted)] hover:bg-green-50
-                           hover:text-green-600`
-                    }`}
+                        px-[14px] py-[8px] whitespace-nowrap text-[13px] font-semibold
+                        transition-all duration-150
+                      ${
+                        active
+                          ? `border-salmon-600 bg-salmon-600 text-[var(--color-foreground)]`
+                          : `border-[var(--color-border)] bg-[var(--color-border)]
+                            text-[var(--color-muted)] hover:bg-salmon-50 hover:text-salmon-600`
+                      }`}
                     >
                       {label}
                     </button>
@@ -146,9 +148,9 @@ export default function MealLibrary() {
         <EmptyMeals onAdd={openAddModal} />
       ) : noSearchResult ? (
         <div className="flex flex-col items-center gap-[14px] px-[20px] py-[64px]">
-          <p className="leading-[1.6] text-center text-[15px] text-[var(--color-muted)]">
+          <p className="leading-[1.6] text-center text-[15px] text-white">
             No meals match{" "}
-            <strong className="[overflow-wrap:anywhere] text-[var(--color-foreground)]">
+            <strong className="[overflow-wrap:anywhere] text-salmon-200">
               &ldquo;{search}&rdquo;
             </strong>
             {slotFilter !== "all" && ` in ${slotFilter}`}.
@@ -161,7 +163,7 @@ export default function MealLibrary() {
               setSlotFilter("all");
             }}
             className="select-none cursor-pointer bg-transparent whitespace-nowrap
-              underline text-[14px] font-semibold text-salmon-800"
+              underline text-[14px] font-semibold text-salmon-600"
           >
             Clear filters
           </button>

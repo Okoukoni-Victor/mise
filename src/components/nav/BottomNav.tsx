@@ -24,8 +24,8 @@ export default function BottomNav() {
   return (
     <nav
       className="z-fixed fixed inset-x-0 bottom-0 flex lg:hidden items-center h-16 border-t
-        border-[var(--color-border)] pb-[env(safe-area-inset-bottom)]
-        bg-[var(--color-surface)]"
+        border-[var(--color-muted)] pb-[env(safe-area-inset-bottom)]
+        bg-green-600"
     >
       {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
         const isActive =
@@ -37,7 +37,7 @@ export default function BottomNav() {
             href={href}
             className={`select-none flex flex-1 flex-col justify-center items-center
               gap-[3px] py-[6px]
-              ${isActive ? "text-green-600" : "text-muted"}`}
+              ${isActive ? "text-salmon-600" : "text-white"}`}
           >
             <Icon size={20} strokeWidth={isActive ? 2.2 : 1.8} />
 

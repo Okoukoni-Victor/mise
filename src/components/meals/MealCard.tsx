@@ -42,8 +42,7 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
   return (
     <div
       className="overflow-hidden flex flex-col border border-[var(--color-border)]
-        rounded-[12px] bg-[var(--color-surface)] transition-all duration-200 ease-in
-        hover:shadow-[0_4px_20px_rgba(120,60,45,0.07)] hover:border-salmon-200"
+        rounded-[12px] bg-green-50"
     >
       {/* Card body */}
       <div className="flex-1 p-[20px]">
@@ -115,9 +114,9 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
                 type="button"
                 onClick={() => setConfirming(false)}
                 className="select-none cursor-pointer border border-[var(--color-border)]
-                  rounded-[6px] px-[10px] py-[4px] bg-transparent whitespace-nowrap
-                  text-[12px] font-semibold text-[var(--color-muted)] transition-colors
-                  duration-150 hover:bg-[var(--color-border)]
+                  rounded-[6px] px-[10px] py-[4px] bg-[var(--color-surface)]
+                  whitespace-nowrap text-[12px] font-semibold text-[var(--color-muted)]
+                  transition-colors duration-150 hover:bg-[var(--color-border)]
                   hover:text-[var(--color-foreground)]"
               >
                 Cancel
@@ -144,7 +143,7 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
               className="select-none cursor-pointer inline-flex justify-center
                 items-center gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent
                 whitespace-nowrap text-[13px] font-semibold text-green-600
-                transition-colors duration-150 hover:bg-green-50"
+                transition-colors duration-150 hover:bg-green-100"
             >
               <Edit2 size={14} strokeWidth={2} />
               Edit
@@ -156,7 +155,7 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
               className="select-none cursor-pointer inline-flex justify-center
                 items-center gap-[5px] rounded-[6px] px-[8px] py-[5px] bg-transparent
                 whitespace-nowrap text-[13px] font-semibold text-salmon-800
-                transition-colors duration-150 hover:bg-salmon-50"
+                transition-colors duration-150 hover:bg-salmon-100"
             >
               <Trash2 size={14} strokeWidth={2} />
               Delete

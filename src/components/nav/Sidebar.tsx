@@ -25,21 +25,14 @@ export default function Sidebar() {
   return (
     <aside
       className="overflow-y-auto z-sticky sticky top-0 shrink-0 hidden lg:flex flex-col
-        w-[248px] h-dvh border-r border-[var(--color-border)] bg-[var(--color-surface)]"
+        w-[248px] h-dvh border-r border-[var(--color-muted)] bg-green-600"
     >
-      <div className="flex items-center border-b border-[var(--color-border)] p-[20px]">
+      <div className="flex items-center border-b border-[var(--color-muted)] p-[20px]">
         <Link
           href="/"
-          aria-label="Mise homepage"
-          className="select-none relative w-[75px] h-[30px]"
+          className="select-none text-3xl font-display font-bold text-white"
         >
-          <Image
-            src="/Mise.png"
-            alt="Mise logo"
-            fill
-            sizes="75px"
-            className="object-contain"
-          />
+          Mise<span className="text-salmon-600">.</span>
         </Link>
       </div>
 
@@ -56,9 +49,9 @@ export default function Sidebar() {
                 px-[12px] py-[10px] whitespace-nowrap transition-colors duration-150
                   ${
                     isActive
-                      ? "bg-green-600 text-white"
-                      : `bg-transparent text-[var(--color-muted)] hover:bg-green-50
-                         hover:text-green-600`
+                      ? `bg-white text-green-600`
+                      : `bg-transparent text-[var(--color-background)]
+                         hover:bg-[var(--color-muted)] hover:text-white`
                   }`}
             >
               <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />
@@ -75,12 +68,12 @@ export default function Sidebar() {
       </nav>
 
       <div
-        className="flex justify-center items-center border-t border-[var(--color-border)]
+        className="flex justify-center items-center border-t border-[var(--color-muted)]
           p-[20px]"
       >
         <p
           className="tracking-[0.1em] text-[10px] uppercase font-medium
-            text-[var(--color-foreground)]"
+            text-white"
         >
           mise en place
         </p>

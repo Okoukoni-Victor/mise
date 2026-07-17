@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { Lightbulb } from "lucide-react";
 import { useStore } from "@/hooks/useStore";
 import { Meal, MealSlot } from "@/lib/types";
 import { getTodayString, getWeekDates } from "@/lib/utils";
 import MealPickerModal from "@/components/planner/MealPickerModal";
+import MealModal, { type MealPrefill } from "@/components/meals/MealModal";
 import TodayMealCard from "./TodayMealCard";
 import StatCard from "./StatCard";
+import SuggestMealModal from "./SuggestMealModal";
 
 // Constants
 const SLOTS: MealSlot[] = ["breakfast", "lunch", "dinner"];
@@ -24,6 +27,13 @@ export default function TodayPage() {
   const { store, dispatch } = useStore();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [pickerSlot, setPickerSlot] = useState<MealSlot | null>(null);
+
+  // AI suggestion + "add to library" modals
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  const [mealModalOpen, setMealModalOpen] = useState(false);
+  const [mealPrefill, setMealPrefill] = useState<MealPrefill | undefined>(
+    undefined,
+  );
 
   const today = getTodayString();
   const weekDates = getWeekDates();
@@ -65,6 +75,22 @@ export default function TodayPage() {
       payload: { date: today, slot: pickerSlot, mealId },
     });
   };
+
+  // Suggestion → "add new meal to library" hands off to the existing MealModal.
+  const handleAddNewFromSuggestion = (prefill: MealPrefill) => {
+    setSuggestOpen(false);
+    setMealPrefill(prefill);
+    setMealModalOpen(true);
+  };
+
+  const closeMealModal = () => {
+    setMealModalOpen(false);
+    setMealPrefill(undefined);
+  };
+
+  // Suggest the first slot that isn't planned yet (fall back to breakfast).
+  const defaultSuggestSlot: MealSlot =
+    SLOTS.find((s) => getMeal(s) === null) ?? "breakfast";
 
   // Derived stats
 
@@ -123,7 +149,10 @@ export default function TodayPage() {
   const currentMealId = pickerSlot ? getMeal(pickerSlot)?.id : undefined;
 
   return (
-    <main className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[28px] md:py-[40px]">
+    <main
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+        lg:py-[40px] bg-green-600"
+    >
       <div className="mb-[40px]">
         <p
           className="mb-[6px] tracking-[0.08em] text-[12px] uppercase font-semibold
@@ -134,22 +163,37 @@ export default function TodayPage() {
 
         <h1
           className="leading-[1.15] text-[32px] md:text-[40px] lg:text-[44px] font-bold
-            text-[var(--color-foreground)]"
+            text-white"
         >
           {getGreeting()}
         </h1>
 
-        <p className="mt-[6px] text-[16px] text-[var(--color-muted)]">
+        <p className="mt-[6px] text-[16px] text-[var(--color-background)]">
           {dateDisplay}
         </p>
 
         <p
-          className={`mt-[24px] text-[14px]
+          className={`mt-[24px] text-[14px] text-[var(--color-background)]
             ${plannedToday === 3 ? "font-medium" : "font-normal"}
-            ${plannedToday === 3 ? "text-green-600" : "text-[var(--color-muted)]"}`}
+          `}
         >
           {subtitle}
         </p>
+
+        {/* AI suggestion CTA — hidden once the day is fully planned */}
+        {plannedToday < 3 && (
+          <button
+            type="button"
+            onClick={() => setSuggestOpen(true)}
+            className="select-none cursor-pointer inline-flex items-center gap-[7px]
+              mt-[18px] rounded-[10px] px-[20px] py-[11px] bg-white whitespace-nowrap
+              text-[14px] font-semibold text-green-600 transition-colors duration-150
+              hover:bg-[var(--color-border)]"
+          >
+            <Lightbulb size={15} strokeWidth={2.2} />
+            Suggest a meal
+          </button>
+        )}
       </div>
 
       {/* Meal cards */}
@@ -170,17 +214,19 @@ export default function TodayPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[12px]">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-[12px]">
         <StatCard
           value={`${weeklyPlanned}/21`}
           label="Meals planned this week"
           href="/planner"
         />
+
         <StatCard
           value={pantryDisplay}
           label="Ingredients stocked"
           href="/pantry"
         />
+
         <StatCard
           value={shoppingCount}
           label={shoppingCount === 1 ? "Item to buy" : "Items to buy"}
@@ -196,6 +242,21 @@ export default function TodayPage() {
         slot={pickerSlot}
         currentMealId={currentMealId}
         onSelect={handleSelect}
+      />
+
+      {/* AI suggestion modal */}
+      <SuggestMealModal
+        isOpen={suggestOpen}
+        onClose={() => setSuggestOpen(false)}
+        defaultSlot={defaultSuggestSlot}
+        onAddNew={handleAddNewFromSuggestion}
+      />
+
+      {/* Add-to-library modal (reused for AI-suggested new meals) */}
+      <MealModal
+        isOpen={mealModalOpen}
+        onClose={closeMealModal}
+        prefill={mealPrefill}
       />
     </main>
   );

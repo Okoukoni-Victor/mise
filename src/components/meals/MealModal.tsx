@@ -6,10 +6,20 @@ import { useStore } from "@/hooks/useStore";
 import { Meal, MealSlot, Ingredient } from "@/lib/types";
 import { generateId } from "@/lib/utils";
 
+// Shape used to pre-fill the form when creating a meal from an AI suggestion.
+export interface MealPrefill {
+  name: string;
+  slots: MealSlot[];
+  prepTime: number;
+  ingredients: string[];
+}
+
 interface MealModalProps {
   isOpen: boolean;
   onClose: () => void;
   meal?: Meal;
+  // When creating (no `meal`), optionally seed the form with these values.
+  prefill?: MealPrefill;
 }
 
 const SLOTS: { value: MealSlot; label: string }[] = [
@@ -18,7 +28,12 @@ const SLOTS: { value: MealSlot; label: string }[] = [
   { value: "dinner", label: "Dinner" },
 ];
 
-export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
+export default function MealModal({
+  isOpen,
+  onClose,
+  meal,
+  prefill,
+}: MealModalProps) {
   const { store, dispatch } = useStore();
 
   const [name, setName] = useState("");
@@ -31,7 +46,7 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
   const nameRef = useRef<HTMLInputElement>(null);
   const ingredientRef = useRef<HTMLInputElement>(null);
 
-  // Populate form when editing, or reset when adding
+  // Populate form when editing, when seeded from a suggestion, or reset when adding.
   useEffect(() => {
     if (!isOpen) return;
     if (meal) {
@@ -43,6 +58,11 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
           .map((id) => store.ingredients.find((i) => i.id === id)?.name ?? "")
           .filter(Boolean),
       );
+    } else if (prefill) {
+      setName(prefill.name ?? "");
+      setSlots([...(prefill.slots ?? [])]);
+      setPrepTime(prefill.prepTime ? String(prefill.prepTime) : "");
+      setIngredientNames([...(prefill.ingredients ?? [])]);
     } else {
       setName("");
       setSlots([]);
@@ -51,7 +71,7 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
     }
     setIngredientInput("");
     setErrors({});
-  }, [isOpen, meal]);
+  }, [isOpen, meal, prefill]);
 
   // Focus name on open
   useEffect(() => {
@@ -160,6 +180,7 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
   if (!isOpen) return null;
 
   const isEditing = Boolean(meal);
+  const isFromSuggestion = !meal && Boolean(prefill);
 
   return (
     <div
@@ -170,8 +191,7 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
       }}
     >
       <div
-        className="overflow-y-auto w-full max-w-[520px] max-h-[92vh]
-          shadow-[0_24px_80px_rgba(2,82,89,0.18)] rounded-[16px]
+        className="overflow-y-auto w-full max-w-[520px] max-h-[92vh] rounded-[16px]
           bg-[var(--color-surface)]"
       >
         {/* Header */}
@@ -181,14 +201,18 @@ export default function MealModal({ isOpen, onClose, meal }: MealModalProps) {
               className="mb-[4px] tracking-[0.08em] text-[11px] uppercase font-semibold
                 text-salmon-600"
             >
-              {isEditing ? "Edit meal" : "New meal"}
+              {isEditing
+                ? "Edit meal"
+                : isFromSuggestion
+                  ? "From your suggestion"
+                  : "New meal"}
             </p>
 
             <h2
               className="leading-none truncate text-[24px] font-bold
                 text-[var(--color-foreground)]"
             >
-              {isEditing ? meal!.name : "Add a meal"}
+              {isEditing ? meal!.name : isFromSuggestion ? name : "Add a meal"}
             </h2>
           </div>
 
