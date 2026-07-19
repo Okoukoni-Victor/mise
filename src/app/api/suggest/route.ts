@@ -59,8 +59,6 @@ interface RequestBody {
 
 export async function POST(req: Request) {
   // 1. Fail fast, with a message the UI can show, if the key is missing.
-  //    (This is the single most common "works locally, broken in prod" bug:
-  //    the env var wasn't added in the hosting provider's settings.)
   if (!process.env.GROQ_API_KEY) {
     return Response.json(
       {
@@ -137,9 +135,6 @@ export async function POST(req: Request) {
   //    schema-validation) lands in catch and returns a clean error.
   try {
     const { object } = await generateObject({
-      // gpt-oss-20b supports Groq's native structured output (json_schema),
-      // so the model is constrained to your schema server-side. Llama models
-      // on Groq don't support this, which is why they kept 400-ing earlier.
       model: groq("openai/gpt-oss-20b"),
       schema: SuggestionSchema,
       system,

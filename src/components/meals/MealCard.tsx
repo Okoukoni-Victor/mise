@@ -145,7 +145,11 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
                 whitespace-nowrap text-[13px] font-semibold text-green-600
                 transition-colors duration-150 hover:bg-green-100"
             >
-              <Edit2 size={14} strokeWidth={2} />
+              <Edit2
+                size={14}
+                strokeWidth={2}
+                className="relative top-[-1px]"
+              />
               Edit
             </button>
 
@@ -157,7 +161,11 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
                 whitespace-nowrap text-[13px] font-semibold text-salmon-800
                 transition-colors duration-150 hover:bg-salmon-100"
             >
-              <Trash2 size={14} strokeWidth={2} />
+              <Trash2
+                size={14}
+                strokeWidth={2}
+                className="relative top-[-1px]"
+              />
               Delete
             </button>
           </>

@@ -86,7 +86,7 @@ export default function ShoppingPage() {
 
   return (
     <main
-      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
         lg:py-[40px]"
     >
       <div className="mb-[28px]">

@@ -5,9 +5,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useStore } from "@/hooks/useStore";
 import { MealSlot } from "@/lib/types";
 import { getWeekDates, getTodayString, formatWeekRange } from "@/lib/utils";
-import MealPickerModal from "./MealPickerModal";
-import DayColumn from "./DayColumn";
 import { SLOTS } from "./slotConfig";
+import DayColumn from "./DayColumn";
+import MealPickerModal from "./MealPickerModal";
 
 export default function PlannerPage() {
   const { store, dispatch } = useStore();
@@ -77,7 +77,7 @@ export default function PlannerPage() {
 
   return (
     <main
-      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
         lg:py-[40px] bg-green-600"
     >
       <div className="mb-[40px]">

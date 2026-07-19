@@ -11,7 +11,6 @@ import TodayMealCard from "./TodayMealCard";
 import StatCard from "./StatCard";
 import SuggestMealModal from "./SuggestMealModal";
 
-// Constants
 const SLOTS: MealSlot[] = ["breakfast", "lunch", "dinner"];
 
 function getGreeting(): string {
@@ -20,8 +19,6 @@ function getGreeting(): string {
   if (h < 17) return "Good afternoon.";
   return "Good evening.";
 }
-
-// TodayPage
 
 export default function TodayPage() {
   const { store, dispatch } = useStore();
@@ -150,7 +147,7 @@ export default function TodayPage() {
 
   return (
     <main
-      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
         lg:py-[40px] bg-green-600"
     >
       <div className="mb-[40px]">
@@ -186,9 +183,9 @@ export default function TodayPage() {
             type="button"
             onClick={() => setSuggestOpen(true)}
             className="select-none cursor-pointer inline-flex items-center gap-[7px]
-              mt-[18px] rounded-[10px] px-[20px] py-[11px] bg-white whitespace-nowrap
-              text-[14px] font-semibold text-green-600 transition-colors duration-150
-              hover:bg-[var(--color-border)]"
+              mt-[18px] rounded-[10px] px-[20px] py-[11px] bg-[var(--color-surface)]
+              whitespace-nowrap text-[14px] font-semibold text-green-600
+              transition-colors duration-150 hover:bg-[var(--color-border)]"
           >
             <Lightbulb size={15} strokeWidth={2.2} />
             Suggest a meal

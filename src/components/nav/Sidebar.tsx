@@ -51,7 +51,7 @@ export default function Sidebar() {
                     isActive
                       ? `bg-white text-green-600`
                       : `bg-transparent text-[var(--color-background)]
-                         hover:bg-[var(--color-muted)] hover:text-white`
+                         hover:bg-green-400 hover:text-white`
                   }`}
             >
               <Icon size={17} strokeWidth={isActive ? 2.2 : 1.8} />

@@ -54,7 +54,7 @@ export default function MealLibrary() {
 
   return (
     <main
-      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] pt-[28px] pb-[92px]
+      className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
         lg:py-[40px] bg-green-600"
     >
       <div className="mb-[28px]">
@@ -87,7 +87,11 @@ export default function MealLibrary() {
                 text-[14px] font-semibold text-green-600 transition-colors duration-150
                 hover:bg-[var(--color-border)]"
             >
-              <Plus size={16} strokeWidth={2.5} />
+              <Plus
+                size={16}
+                strokeWidth={2.5}
+                className="relative top-[-1px]"
+              />
               Add meal
             </button>
 

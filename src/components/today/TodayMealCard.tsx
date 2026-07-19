@@ -127,7 +127,10 @@ export default function TodayMealCard({
               onClick={onOpen}
               title="Tap to change"
               className="flex-1 select-none cursor-pointer flex flex-col
-                justify-center items-center px-[16px] pt-[18px] pb-[14px]"
+                justify-center items-center rounded-b-[14px] px-[16px] pt-[18px]
+                pb-[14px] transition-colors duration-150
+                focus-visible:outline-none focus-visible:ring-2
+                focus-visible:ring-inset focus-visible:ring-salmon-200"
             >
               <h3
                 className="w-full mb-[10px] leading-[1.25] truncate text-[22px] font-bold
@@ -141,7 +144,7 @@ export default function TodayMealCard({
                   className="flex items-center gap-[4px] text-[13px]
                     text-[var(--color-muted)]"
                 >
-                  <Clock size={12} strokeWidth={2} />
+                  <Clock size={13} strokeWidth={2} />
                   {meal.prepTime} min
                 </span>
 
@@ -150,7 +153,7 @@ export default function TodayMealCard({
                     className="flex items-center gap-[4px] text-[13px]
                       text-[var(--color-muted)]"
                   >
-                    <Hash size={12} strokeWidth={2} />
+                    <Hash size={13} strokeWidth={2} />
                     {meal.ingredientIds.length} ingredient
                     {meal.ingredientIds.length !== 1 ? "s" : ""}
                   </span>
@@ -177,7 +180,7 @@ export default function TodayMealCard({
 
                 <span>
                   Missing:{" "}
-                  <span className="font-normal">
+                  <span className="font-medium">
                     {missingIngredients[0] &&
                       (missingIngredients[0].length > 20
                         ? `${missingIngredients[0].slice(0, 20)}...`
@@ -194,8 +197,10 @@ export default function TodayMealCard({
             type="button"
             onClick={onOpen}
             className="flex-1 select-none cursor-pointer flex flex-col justify-center
-              items-center gap-[8px] px-[16px] py-[24px] bg-transparent
-              text-[var(--color-muted)]"
+              items-center gap-[8px] rounded-b-[14px] px-[16px] py-[24px] bg-transparent
+              text-[var(--color-muted)] transition-colors duration-150
+              focus-visible:outline-none focus-visible:ring-2
+              focus-visible:ring-inset focus-visible:ring-salmon-200"
           >
             <span
               className="inline-flex justify-center items-center w-[36px] h-[36px]

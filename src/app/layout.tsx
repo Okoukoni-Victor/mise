@@ -3,6 +3,7 @@ import { Playfair_Display, DM_Sans } from "next/font/google";
 import "./globals.css";
 import { StoreProvider } from "@/hooks/useStore";
 import Sidebar from "@/components/nav/Sidebar";
+import TopNav from "@/components/nav/TopNav";
 import BottomNav from "@/components/nav/BottomNav";
 
 export const metadata: Metadata = {
@@ -37,6 +38,7 @@ export default function RootLayout({
     >
       <body>
         <StoreProvider>
+          <TopNav />
           <div className="flex">
             <Sidebar />
 

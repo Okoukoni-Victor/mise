@@ -1,39 +1,28 @@
-<svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="108"
-        height="108"
-        viewBox="0 0 108 108"
-        fill="none"
-      >
-        {/* Bag body — filled */}
-        <rect
-          x="18"
-          y="38"
-          width="72"
-          height="56"
-          rx="8"
-          fill="#ebf6f7"
-          stroke="#82bdc2"
-          strokeWidth="1.5"
-        />
-        {/* Bag handle */}
-        <path
-          d="M38 38 Q38 20 54 20 Q70 20 70 38"
-          stroke="#2b828a"
-          strokeWidth="2"
-          fill="none"
-          strokeLinecap="round"
-        />
-        {/* Big checkmark inside bag */}
-        <path
-          d="M36 64 L48 76 L72 52"
-          stroke="#025259"
-          strokeWidth="4"
-          fill="none"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-        {/* Salmon accent */}
-        <circle cx="83" cy="24" r="7" fill="#ff947a" />
-        <circle cx="93" cy="36" r="4.5" fill="#ffd0c2" />
-      </svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="108" height="108" viewBox="0 0 108 108" fill="none">
+  {/* Cupboard body */}
+  <rect x="21" y="32" width="66" height="64" rx="6" fill="#ebf6f7" stroke="#82bdc2" strokeWidth="1.5"/>
+  {/* Shelf lines — solid (stocked) */}
+  <line x1="21" y1="58" x2="87" y2="58" stroke="#82bdc2" strokeWidth="1"/>
+  <line x1="21" y1="80" x2="87" y2="80" stroke="#82bdc2" strokeWidth="1"/>
+  {/* Top shelf: jar */}
+  <line x1="31.5" y1="39" x2="42.5" y2="39" stroke="#2b828a" strokeWidth="2.5" strokeLinecap="round"/>
+  <rect x="30" y="41.5" width="14" height="16.5" rx="3" fill="#ffd0c2" stroke="#2b828a" strokeWidth="2"/>
+  {/* Top shelf: bottle */}
+  <line x1="53.5" y1="38" x2="60" y2="38" stroke="#2b828a" strokeWidth="2.5" strokeLinecap="round"/>
+  <path d="M54.5 38.5 L54.5 43 Q51 45 51 48.5 L51 54.5 Q51 58 54.5 58 L59 58 Q62.5 58 62.5 54.5 L62.5 48.5 Q59 45 59 43 L59 38.5 Z" fill="#ffd0c2" stroke="#2b828a" strokeWidth="2" strokeLinecap="round"/>
+  {/* Top shelf: canister */}
+  <line x1="69.5" y1="46" x2="77.5" y2="46" stroke="#2b828a" strokeWidth="2.5" strokeLinecap="round"/>
+  <rect x="68.5" y="48" width="10" height="10" rx="2.5" fill="#ffd0c2" stroke="#2b828a" strokeWidth="2"/>
+  {/* Lower shelf: jar (the ghost jar, now real) */}
+  <line x1="38" y1="64.5" x2="48" y2="64.5" stroke="#2b828a" strokeWidth="2.5" strokeLinecap="round"/>
+  <rect x="36.5" y="66.5" width="13" height="13.5" rx="3" fill="#ffd0c2" stroke="#2b828a" strokeWidth="2"/>
+  {/* Lower shelf: box */}
+  <rect x="58" y="64" width="12" height="16" rx="2" fill="#ffd0c2" stroke="#2b828a" strokeWidth="2"/>
+  <line x1="58" y1="68.5" x2="70" y2="68.5" stroke="#2b828a" strokeWidth="1.5"/>
+  {/* Check badge */}
+  <circle cx="85" cy="21" r="10" fill="#ff947a"/>
+  <path d="M80.5 21 L83.8 24.3 L90 18" stroke="#ffffff" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+  {/* Companion accent dots */}
+  <circle cx="96" cy="34" r="4.5" fill="#ffd0c2"/>
+  <circle cx="73" cy="9" r="3" fill="#ffd0c2"/>
+</svg>

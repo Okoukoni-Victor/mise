@@ -1,6 +1,13 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
+import {
+  Description,
+  Dialog,
+  DialogBackdrop,
+  DialogPanel,
+  DialogTitle,
+} from "@headlessui/react";
 import { X, Plus } from "lucide-react";
 import { useStore } from "@/hooks/useStore";
 import { Meal, MealSlot, Ingredient } from "@/lib/types";
@@ -76,24 +83,6 @@ export default function MealModal({
   // Focus name on open
   useEffect(() => {
     if (isOpen) setTimeout(() => nameRef.current?.focus(), 60);
-  }, [isOpen]);
-
-  // Close on Escape
-  useEffect(() => {
-    if (!isOpen) return;
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    document.addEventListener("keydown", handler);
-    return () => document.removeEventListener("keydown", handler);
-  }, [isOpen, onClose]);
-
-  // Lock body scroll while modal is open
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [isOpen]);
 
   const toggleSlot = (slot: MealSlot) => {
@@ -183,74 +172,82 @@ export default function MealModal({
   const isFromSuggestion = !meal && Boolean(prefill);
 
   return (
-    <div
-      className="z-fixed fixed inset-0 flex justify-center items-center p-[20px]
-        backdrop-blur-[4px] bg-[rgba(15,30,31,0.55)]"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div
-        className="overflow-y-auto w-full max-w-[520px] max-h-[92vh] rounded-[16px]
-          bg-[var(--color-surface)]"
-      >
-        {/* Header */}
-        <div className="flex justify-between items-center gap-[24px] px-[28px] pt-[26px]">
-          <div className="flex-1 min-w-0">
-            <p
-              className="mb-[4px] tracking-[0.08em] text-[11px] uppercase font-semibold
-                text-salmon-600"
-            >
-              {isEditing
-                ? "Edit meal"
-                : isFromSuggestion
-                  ? "From your suggestion"
-                  : "New meal"}
-            </p>
+    <Dialog open={isOpen} onClose={onClose} className="relative z-modal">
+      <DialogBackdrop
+        transition
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm duration-300 ease-out
+          data-closed:opacity-0"
+      />
 
-            <h2
-              className="leading-none truncate text-[24px] font-bold
-                text-[var(--color-foreground)]"
+      <div className="fixed inset-0 flex justify-center items-center">
+        <DialogPanel
+          transition
+          className="overflow-hidden w-full max-w-[520px] rounded-[16px]
+            bg-[var(--color-surface)] duration-300 ease-out data-closed:scale-95
+            data-closed:opacity-0"
+        >
+          {/* Header */}
+          <div className="flex justify-between items-start gap-[24px] px-[28px] pt-[26px]">
+            <div className="flex-1 min-w-0">
+              <DialogTitle
+                className="mb-[4px] tracking-[0.08em] text-[11px] font-body uppercase
+                  font-semibold text-salmon-600"
+              >
+                {isEditing
+                  ? "Edit meal"
+                  : isFromSuggestion
+                    ? "From your suggestion"
+                    : "New meal"}
+              </DialogTitle>
+
+              <Description
+                className="leading-[1.2] truncate text-[18px] md:text-[20px] font-display
+                  font-bold text-[var(--color-foreground)]"
+              >
+                {isEditing
+                  ? meal!.name
+                  : isFromSuggestion
+                    ? name
+                    : "Add a meal"}
+              </Description>
+            </div>
+
+            <button
+              type="button"
+              onClick={onClose}
+              aria-label="Close dialog"
+              className="select-none cursor-pointer shrink-0 inline-flex justify-center
+                items-center rounded-[8px] p-[6px] bg-transparent
+                text-[var(--color-muted)] transition-colors duration-150
+                hover:bg-salmon-50 hover:text-salmon-800"
             >
-              {isEditing ? meal!.name : isFromSuggestion ? name : "Add a meal"}
-            </h2>
+              <X size={20} strokeWidth={2} />
+            </button>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            aria-label="Close"
-            className="select-none cursor-pointer shrink-0 inline-flex justify-center
-              items-center rounded-[8px] p-[6px] bg-transparent text-[var(--color-muted)]
-              transition-colors duration-150 hover:bg-salmon-50 hover:text-salmon-800"
+          {/* Form */}
+          <form
+            onSubmit={handleSave}
+            className="flex flex-col gap-[22px] px-[28px] pt-[24px] pb-[30px]"
           >
-            <X size={20} strokeWidth={2} />
-          </button>
-        </div>
-
-        {/* Form */}
-        <form
-          onSubmit={handleSave}
-          className="flex flex-col gap-[22px] px-[28px] pt-[24px] pb-[30px]"
-        >
-          {/* Meal name */}
-          <div>
-            <label
-              className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase
+            {/* Meal name */}
+            <div>
+              <label
+                className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase
                 font-semibold text-[var(--color-muted)]"
-            >
-              Meal name
-            </label>
+              >
+                Meal name
+              </label>
 
-            <input
-              ref={nameRef}
-              value={name}
-              onChange={(e) => {
-                setName(e.target.value);
-                setErrors((p) => ({ ...p, name: "" }));
-              }}
-              placeholder="e.g. Jollof Rice, Ofe Akwu, Eba and Egusi..."
-              className={`w-full border-[1.5px] border-[var(--color-border)] rounded-[8px]
+              <input
+                ref={nameRef}
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setErrors((p) => ({ ...p, name: "" }));
+                }}
+                placeholder="e.g. Jollof Rice, Ofe Akwu, Eba and Egusi..."
+                className={`w-full border-[1.5px] border-[var(--color-border)] rounded-[8px]
                 px-[13px] py-[10px] bg-[var(--color-surface)] text-[15px]
                 text-[var(--color-foreground)] transition-colors duration-150
                 focus-visible:outline-none focus:ring-2 focus:ring-salmon-200
@@ -261,34 +258,34 @@ export default function MealModal({
                     : "border-[var(--color-border)]"
                 }
                 `}
-            />
+              />
 
-            {errors.name && (
-              <p className="mt-[6px] text-[12px] text-salmon-800">
-                {errors.name}
-              </p>
-            )}
-          </div>
+              {errors.name && (
+                <p className="mt-[6px] text-[12px] text-salmon-800">
+                  {errors.name}
+                </p>
+              )}
+            </div>
 
-          {/* Slot toggles */}
-          <div>
-            <label
-              className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase
+            {/* Slot toggles */}
+            <div>
+              <label
+                className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase
                 font-semibold text-[var(--color-muted)]"
-            >
-              Suitable for
-            </label>
+              >
+                Suitable for
+              </label>
 
-            <div className="flex gap-[8px]">
-              {SLOTS.map(({ value, label }) => {
-                const active = slots.includes(value);
+              <div className="flex gap-[8px]">
+                {SLOTS.map(({ value, label }) => {
+                  const active = slots.includes(value);
 
-                return (
-                  <button
-                    key={value}
-                    type="button"
-                    onClick={() => toggleSlot(value)}
-                    className={`select-none cursor-pointer flex-1 border-[1.5px]
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      onClick={() => toggleSlot(value)}
+                      className={`select-none cursor-pointer flex-1 border-[1.5px]
                       rounded-[8px] py-[9px] text-[13px] font-semibold transition-all
                       duration-150 ease-in
                       ${
@@ -298,40 +295,40 @@ export default function MealModal({
                              text-[var(--color-muted)] transition-colors
                              duration-150 hover:bg-green-50 hover:text-green-600`
                       }`}
-                  >
-                    {label}
-                  </button>
-                );
-              })}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {errors.slots && (
+                <p className="mt-[6px] text-[12px] text-salmon-800">
+                  {errors.slots}
+                </p>
+              )}
             </div>
 
-            {errors.slots && (
-              <p className="mt-[6px] text-[12px] text-salmon-800">
-                {errors.slots}
-              </p>
-            )}
-          </div>
-
-          {/* Prep time */}
-          <div>
-            <label
-              className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase font-semibold
+            {/* Prep time */}
+            <div>
+              <label
+                className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase font-semibold
                 text-[var(--color-muted)]"
-            >
-              Prep time
-            </label>
+              >
+                Prep time
+              </label>
 
-            <div className="flex items-center gap-[10px]">
-              <input
-                type="number"
-                min="1"
-                value={prepTime}
-                onChange={(e) => {
-                  setPrepTime(e.target.value);
-                  setErrors((p) => ({ ...p, prep: "" }));
-                }}
-                placeholder="30"
-                className={` select-none w-[90px] border-[1.5px] rounded-[8px]
+              <div className="flex items-center gap-[10px]">
+                <input
+                  type="number"
+                  min="1"
+                  value={prepTime}
+                  onChange={(e) => {
+                    setPrepTime(e.target.value);
+                    setErrors((p) => ({ ...p, prep: "" }));
+                  }}
+                  placeholder="30"
+                  className={` select-none w-[90px] border-[1.5px] rounded-[8px]
                 px-[13px] py-[10px] bg-[var(--color-surface)] text-[15px]
                 text-[var(--color-foreground)] transition-colors duration-150
                 ${
@@ -340,123 +337,128 @@ export default function MealModal({
                     : "border-[var(--color-border)]"
                 }
                 `}
-              />
+                />
 
-              <span className="text-[14px] text-[var(--color-muted)]">
-                minute{Number(prepTime) === 1 ? "" : "s"}
-              </span>
+                <span className="text-[14px] text-[var(--color-muted)]">
+                  minute{Number(prepTime) === 1 ? "" : "s"}
+                </span>
+              </div>
+
+              {errors.prep && (
+                <p className="mt-[6px] text-[12px] text-salmon-800">
+                  {errors.prep}
+                </p>
+              )}
             </div>
 
-            {errors.prep && (
-              <p className="mt-[6px] text-[12px] text-salmon-800">
-                {errors.prep}
-              </p>
-            )}
-          </div>
-
-          {/* Ingredients */}
-          <div>
-            <label
-              className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase font-semibold
+            {/* Ingredients */}
+            <div>
+              <label
+                className="block mb-[8px] tracking-[0.06em] text-[12px] uppercase font-semibold
                 text-[var(--color-muted)]"
-            >
-              Ingredients
-              <span
-                className="opacity-70 ml-[6px] tracking-normal normal-case
-                  font-normal"
               >
-                — optional
-              </span>
-            </label>
+                Ingredients
+                <span
+                  className="opacity-70 ml-[6px] tracking-normal normal-case
+                  font-normal"
+                >
+                  — optional
+                </span>
+              </label>
 
-            {/* Input row */}
-            <div
-              className={`flex gap-[8px] ${ingredientNames.length ? "mb-[12px]" : ""}`}
-            >
-              <input
-                ref={ingredientRef}
-                value={ingredientInput}
-                onChange={(e) => setIngredientInput(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    e.preventDefault();
-                    addIngredient();
-                  }
-                }}
-                placeholder="Type an ingredient, press Enter to add"
-                className="select-none flex-1 w-[90px] border-[1.5px]
+              {/* Input row */}
+              <div
+                className={`flex gap-[8px] ${ingredientNames.length ? "mb-[12px]" : ""}`}
+              >
+                <input
+                  ref={ingredientRef}
+                  value={ingredientInput}
+                  onChange={(e) => setIngredientInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addIngredient();
+                    }
+                  }}
+                  placeholder="Type an ingredient, press Enter to add"
+                  className="select-none flex-1 w-[90px] border-[1.5px]
                   border-[var(--color-border)] rounded-[8px] px-[13px] py-[10px]
                   bg-[var(--color-surface)] text-[15px] text-[var(--color-foreground)]"
-              />
+                />
 
-              <button
-                type="button"
-                onClick={addIngredient}
-                disabled={!ingredientInput.trim()}
-                className={`select-none cursor-pointer inline-flex items-center gap-[5px]
+                <button
+                  type="button"
+                  onClick={addIngredient}
+                  disabled={!ingredientInput.trim()}
+                  className={`select-none cursor-pointer inline-flex items-center gap-[5px]
                   border-[1.5px] border-green-200
                   rounded-[8px] px-[14px] bg-green-50 whitespace-nowrap text-[13px]
                   font-semibold text-green-600 transition-opacity duration-150
                   ${ingredientInput.trim() ? "opacity-100" : "opacity-50"}`}
-              >
-                <Plus size={14} strokeWidth={2.5} />
-                Add
-              </button>
-            </div>
+                >
+                  <Plus
+                    size={14}
+                    strokeWidth={2.5}
+                    className="relative top-[-1px]"
+                  />
+                  Add
+                </button>
+              </div>
 
-            {/* Ingredient chips */}
-            {ingredientNames.length > 0 && (
-              <div className="flex flex-wrap gap-[7px]">
-                {ingredientNames.map((ing) => (
-                  <span
-                    key={ing}
-                    className="select-none inline-flex items-center gap-[6px]
+              {/* Ingredient chips */}
+              {ingredientNames.length > 0 && (
+                <div className="flex flex-wrap gap-[7px]">
+                  {ingredientNames.map((ing) => (
+                    <span
+                      key={ing}
+                      className="select-none inline-flex items-center gap-[6px]
                       max-w-[180px] border border-salmon-200 rounded-[20px] pl-[12px]
                       pr-[10px] py-[5px] bg-salmon-50 text-[13px] font-semibold
                       text-salmon-800"
-                  >
-                    <span className="min-w-0 truncate">{ing}</span>
+                    >
+                      <span className="min-w-0 truncate">{ing}</span>
 
-                    <button
-                      type="button"
-                      onClick={() => removeIngredient(ing)}
-                      aria-label={`Remove ${ing}`}
-                      className="select-none cursor-pointer shrink-0 inline-flex
+                      <button
+                        type="button"
+                        onClick={() => removeIngredient(ing)}
+                        aria-label={`Remove ${ing}`}
+                        className="select-none cursor-pointer shrink-0 inline-flex
                         justify-center items-center bg-transparent leading-none
                         text-salmon-800"
-                    >
-                      <X size={13} strokeWidth={2.5} />
-                    </button>
-                  </span>
-                ))}
-              </div>
-            )}
-          </div>
+                      >
+                        <X size={13} strokeWidth={2.5} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
 
-          {/* Action buttons */}
-          <div className="flex gap-[10px] pt-[4px]">
-            <button
-              type="button"
-              onClick={onClose}
-              className="select-none cursor-pointer flex-1 border-[1.5px]
+            {/* Action buttons */}
+            <div className="flex gap-[10px] pt-[4px]">
+              <button
+                type="button"
+                onClick={onClose}
+                className="select-none cursor-pointer flex-1 border-[1.5px]
                 border-[var(--color-border)] rounded-[10px] p-[12px]
                 bg-[var(--color-background)] text-[14px] font-medium text-[var(--color-muted)]
                 transition-colors duration-150 hover:border-green-200"
-            >
-              Cancel
-            </button>
+              >
+                Cancel
+              </button>
 
-            <button
-              type="submit"
-              className="select-none cursor-pointer flex-1 rounded-[10px] p-[12px]
+              <button
+                type="submit"
+                className="select-none cursor-pointer flex-1 rounded-[10px] p-[12px]
                 bg-green-600 text-[14px] font-semibold text-white
                 transition-colors duration-150 hover:bg-green-800"
-            >
-              {isEditing ? "Save changes" : "Add meal"}
-            </button>
-          </div>
-        </form>
+              >
+                {isEditing ? "Save changes" : "Add meal"}
+              </button>
+            </div>
+          </form>
+        </DialogPanel>
       </div>
-    </div>
+    </Dialog>
   );
 }

@@ -61,7 +61,9 @@ export default function SlotCell({
         onClick={onAdd}
         title="Click to replace"
         className="select-none cursor-pointer flex-1 flex flex-col justify-center
-          items-center gap-[3px] p-[8px] bg-transparent"
+          items-center gap-[3px] rounded-b-[8px] p-[8px] bg-transparent
+          transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2
+          focus-visible:ring-inset focus-visible:ring-salmon-200"
       >
         <span
           className="block w-full leading-[1.3] truncate text-[13px] font-semibold
@@ -82,8 +84,9 @@ export default function SlotCell({
       className="group select-none cursor-pointer flex flex-col justify-center items-center
         gap-[5px] w-full min-h-[88px] mb-[6px] border-[1.5px] border-dashed
         border-[var(--color-border)] rounded-[8px] p-[8px] bg-[var(--color-surface)]
-        transition-colors duration-150 hover:border-[var(--slot-border)]
-        hover:bg-[var(--slot-bg)]"
+        transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2
+        focus-visible:ring-inset focus-visible:ring-salmon-200
+        hover:border-[var(--slot-border)] hover:bg-[var(--slot-bg)]"
       style={slotStyle}
     >
       <span
