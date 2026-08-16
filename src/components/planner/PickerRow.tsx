@@ -44,13 +44,16 @@ export default function PickerRow({
 
       <div className="flex flex-col gap-[4px] min-w-0">
         <span
-          className={`pb-1 truncate leading-none text-[16px] font-semibold
+          className={`self-start pb-1 truncate leading-none text-[16px] font-semibold
           ${isCurrent ? "text-green-600" : "text-[var(--color-foreground)]"}`}
         >
           {meal.name}
         </span>
 
-        <span className="flex items-center gap-[4px] text-[12px] text-[var(--color-muted)]">
+        <span
+          className="self-start flex items-center gap-[4px] text-[12px]
+            text-[var(--color-muted)]"
+        >
           <Clock size={11} strokeWidth={2} className="relative top-[-0.5px]" />
           {meal.prepTime} min
         </span>

@@ -64,7 +64,7 @@ export default function PantryPage() {
   return (
     <main
       className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
-        lg:py-[40px]"
+        lg:py-[40px] bg-green-600"
     >
       <div className="mb-[28px]">
         <p
@@ -76,14 +76,14 @@ export default function PantryPage() {
 
         <h1
           className="leading-[1.15] text-[28px] md:text-[32px] lg:text-[36px] font-bold
-            text-[var(--color-foreground)]"
+            text-white"
         >
           What&apos;s at home
         </h1>
 
         {total !== 0 && (
           <>
-            <p className="mt-[6px] text-[14px] text-[var(--color-muted)]">
+            <p className="mt-[6px] text-[14px] text-[var(--color-background)]">
               {totalAvailable} of {total} ingredient{total !== 1 ? "s" : ""}{" "}
               available
             </p>
@@ -93,8 +93,9 @@ export default function PantryPage() {
                 type="button"
                 onClick={markAllAvailable}
                 className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
-                  bg-green-600 whitespace-nowrap text-[13px] font-semibold text-white
-                  transition-colors duration-150 hover:bg-green-800"
+                  bg-green-200 whitespace-nowrap text-[13px] font-semibold
+                  text-[var(--color-foreground)] transition-colors duration-150
+                  hover:bg-green-400 hover:text-white"
               >
                 Mark all available
               </button>
@@ -103,8 +104,9 @@ export default function PantryPage() {
                 type="button"
                 onClick={clearAll}
                 className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
-                  bg-salmon-800 whitespace-nowrap text-[13px] font-semibold text-white
-                  transition-colors duration-150 hover:bg-salmon-900"
+                  bg-salmon-200 whitespace-nowrap text-[13px] font-semibold
+                  text-[var(--color-foreground)] transition-colors duration-150
+                  hover:bg-salmon-400"
               >
                 Clear all
               </button>
@@ -113,22 +115,24 @@ export default function PantryPage() {
             {/* Progress bar */}
             {totalAvailable > 0 && (
               <div className="mt-[40px]">
-                <div className="overflow-hidden h-[7px] rounded-[6px] bg-[var(--color-border)]">
-                  <div
-                    className={`h-full rounded-[6px] transition-[width,background-color]
-                    duration-[350ms] ease-in-out
-                  ${allDone ? "bg-green-600" : "bg-salmon-600"}`}
-                    style={{ width: `${(totalAvailable / total) * 100}%` }}
-                  />
-                </div>
-
-                {allDone && (
+                {allDone ? (
                   <p
-                    className="flex items-center gap-[3px] mt-[7px] text-[12px] font-semibold
+                    className="flex items-center gap-[3px] text-[12px] font-semibold
                     text-salmon-600"
                   >
                     You have everything <Check size={14} strokeWidth={2} />
                   </p>
+                ) : (
+                  <div
+                    className="overflow-hidden h-[7px] rounded-[6px]
+                      bg-[var(--color-border)]"
+                  >
+                    <div
+                      className="h-full rounded-[6px] bg-salmon-600 transition-[width]
+                        duration-[350ms] ease-in-out"
+                      style={{ width: `${(totalAvailable / total) * 100}%` }}
+                    />
+                  </div>
                 )}
               </div>
             )}
@@ -147,11 +151,11 @@ export default function PantryPage() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   placeholder="Search ingredients..."
-                  className="w-full border-[1.5px] border-[var(--color-border)]
-                    rounded-[8px] pl-[34px] pr-[12px] py-[9px] bg-[var(--color-surface)]
-                    text-[14px] text-[var(--color-foreground)] transition-colors
-                    duration-150 focus-visible:outline-none focus:ring-2
-                    focus:ring-offset-0 focus:ring-salmon-200 focus:border-transparent"
+                  className="w-full rounded-[8px] pl-[34px] pr-[12px] py-[9px]
+                    bg-[var(--color-surface)] text-[14px]
+                    text-[var(--color-foreground)] transition-colors duration-150
+                    focus-visible:outline-none focus:ring-2 focus:ring-offset-0
+                    focus:ring-salmon-200"
                 />
               </div>
             )}
@@ -194,6 +198,7 @@ export default function PantryPage() {
               count={needed.length}
               variant="salmon"
             />
+
             {needed.length === 0 ? (
               <ColEmpty
                 message="All stocked up — nothing left to buy."

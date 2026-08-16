@@ -40,10 +40,7 @@ export default function MealCard({ meal, onEdit }: MealCardProps) {
   };
 
   return (
-    <div
-      className="overflow-hidden flex flex-col border border-[var(--color-border)]
-        rounded-[12px] bg-green-50"
-    >
+    <div className="overflow-hidden flex flex-col rounded-[12px] bg-green-50">
       {/* Card body */}
       <div className="flex-1 p-[20px]">
         {/* Slot tags */}
