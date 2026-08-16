@@ -15,23 +15,23 @@ export default function EmptyShoppingList() {
 
       <h3
         className="mb-[10px] leading-[1.2] text-center text-[20px] md:text-[24px]
-          lg:text-[26px] font-bold text-[var(--color-foreground)]"
+          lg:text-[26px] font-bold text-white"
       >
         Nothing planned yet
       </h3>
 
       <p
         className="max-w-[360px] mb-[32px] leading-[1.65] text-center text-[15px]
-          text-[var(--color-muted)]"
+          text-white"
       >
         Your shopping list builds itself once you plan your meals for the week.
       </p>
 
       <Link
         href="/planner"
-        className="select-none rounded-[10px] px-[28px] py-[12px] bg-green-600
-          whitespace-nowrap text-[14px] md:text-[15px] font-semibold text-white
-          transition-colors duration-150 hover:bg-green-800"
+        className="select-none rounded-[10px] px-[28px] py-[12px] bg-[var(--color-surface)]
+          whitespace-nowrap text-[14px] md:text-[15px] font-semibold text-green-600
+          transition-colors duration-150 hover:bg-[var(--color-border)]"
       >
         Go to Planner
       </Link>

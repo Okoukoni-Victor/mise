@@ -87,7 +87,7 @@ export default function ShoppingPage() {
   return (
     <main
       className="flex-1 min-w-0 min-h-dvh px-[20px] md:px-[48px] py-[92px]
-        lg:py-[40px]"
+        lg:py-[40px] bg-green-600"
     >
       <div className="mb-[28px]">
         <p
@@ -99,14 +99,14 @@ export default function ShoppingPage() {
 
         <h1
           className="leading-[1.15] text-[28px] md:text-[32px] lg:text-[36px] font-bold
-            text-[var(--color-foreground)]"
+            text-white"
         >
           Shopping list
         </h1>
 
         {plannedMealCount !== 0 && shoppingItems.length !== 0 && (
           <>
-            <p className="mt-[6px] text-[14px] text-[var(--color-muted)]">
+            <p className="mt-[6px] text-[14px] text-[var(--color-background)]">
               {shoppingItems.length - checkedCount} item
               {shoppingItems.length - checkedCount !== 1 ? "s" : ""} left
               {checkedCount > 0 && ` · ${checkedCount} picked up`}
@@ -145,8 +145,9 @@ export default function ShoppingPage() {
                   type="button"
                   onClick={clearAll}
                   className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
-                    bg-salmon-800 whitespace-nowrap text-[13px] font-semibold text-white
-                    transition-colors duration-150 hover:bg-salmon-900"
+                    bg-salmon-200 whitespace-nowrap text-[13px] font-semibold
+                    text-[var(--color-foreground)] transition-colors duration-150
+                    hover:bg-salmon-400"
                 >
                   Clear checks
                 </button>
@@ -155,8 +156,9 @@ export default function ShoppingPage() {
                   type="button"
                   onClick={markAll}
                   className="select-none cursor-pointer rounded-[8px] px-[16px] py-[9px]
-                    bg-green-600 whitespace-nowrap text-[13px] font-semibold text-white
-                    transition-colors duration-150 hover:bg-green-800"
+                    bg-green-200 whitespace-nowrap text-[13px] font-semibold
+                    text-[var(--color-foreground)] transition-colors duration-150
+                    hover:bg-green-400 hover:text-white"
                 >
                   Mark all
                 </button>
@@ -166,25 +168,27 @@ export default function ShoppingPage() {
             {/* Progress bar */}
             {checkedCount > 0 && (
               <div className="mt-[40px]">
-                <div className="overflow-hidden h-[7px] rounded-[6px] bg-[var(--color-border)]">
-                  <div
-                    className={`h-full rounded-[6px] transition-[width,background-color]
-                      duration-[350ms] ease-in-out
-                      ${allChecked ? `bg-green-600` : `bg-salmon-600`}`}
-                    style={{
-                      width: `${(checkedCount / shoppingItems.length) * 100}%`,
-                    }}
-                  />
-                </div>
-
-                {allChecked && (
+                {allChecked ? (
                   <p
-                    className="flex items-center gap-[3px] mt-[7px] text-[12px]
+                    className="flex items-center gap-[3px] text-[12px]
                       font-semibold text-salmon-600"
                   >
                     All picked up — you&apos;re good to cook{" "}
                     <Check size={14} strokeWidth={2} />
                   </p>
+                ) : (
+                  <div
+                    className="overflow-hidden h-[7px] rounded-[6px]
+                      bg-[var(--color-border)]"
+                  >
+                    <div
+                      className="h-full rounded-[6px] bg-salmon-600 transition-[width]
+                        duration-[350ms] ease-in-out"
+                      style={{
+                        width: `${(checkedCount / shoppingItems.length) * 100}%`,
+                      }}
+                    />
+                  </div>
                 )}
               </div>
             )}
@@ -198,7 +202,7 @@ export default function ShoppingPage() {
         <AllStockedState mealCount={plannedMealCount} />
       ) : (
         <>
-          <ul className="flex flex-col gap-[6px] max-w-[580px]">
+          <ul className="grid grid-cols-1 md:grid-cols-2 gap-[6px]">
             {shoppingItems.map(({ ingredient, usedInMeals }) => (
               <ShoppingRow
                 key={ingredient.id}
@@ -211,13 +215,13 @@ export default function ShoppingPage() {
           </ul>
 
           <p
-            className="mt-[28px] leading-[1.6] text-center md:text-left text-[13px]
-              text-[var(--color-muted)]"
+            className="mt-[28px] leading-[1.6] text-center text-[13px]
+              text-white"
           >
             Based on your plan for this week.{" "}
             <Link
               href="/pantry"
-              className="select-none font-semibold text-salmon-800"
+              className="select-none font-semibold text-salmon-600"
             >
               Update your pantry
             </Link>{" "}
